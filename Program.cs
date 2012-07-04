@@ -15,9 +15,44 @@ namespace ConsoleApplication3
 
         private const int HidReportId = 0x4;
 
+        enum KSPROPERTY_VIDCAP_CAMERACONTROL
+        {
+            KSPROPERTY_CAMERACONTROL_PAN,
+            KSPROPERTY_CAMERACONTROL_TILT,
+            KSPROPERTY_CAMERACONTROL_ROLL,
+            KSPROPERTY_CAMERACONTROL_ZOOM,
+            KSPROPERTY_CAMERACONTROL_EXPOSURE,
+            KSPROPERTY_CAMERACONTROL_IRIS,
+            KSPROPERTY_CAMERACONTROL_FOCUS,
+            KSPROPERTY_CAMERACONTROL_SCANMODE,
+            KSPROPERTY_CAMERACONTROL_PRIVACY                  // RW O
+                ,
+            KSPROPERTY_CAMERACONTROL_PANTILT                  // RW O
+                ,
+            KSPROPERTY_CAMERACONTROL_PAN_RELATIVE             // RW O
+                ,
+            KSPROPERTY_CAMERACONTROL_TILT_RELATIVE            // RW O
+                ,
+            KSPROPERTY_CAMERACONTROL_ROLL_RELATIVE            // RW O
+                ,
+            KSPROPERTY_CAMERACONTROL_ZOOM_RELATIVE            // RW O
+                ,
+            KSPROPERTY_CAMERACONTROL_EXPOSURE_RELATIVE        // RW O
+                ,
+            KSPROPERTY_CAMERACONTROL_IRIS_RELATIVE            // RW O
+                ,
+            KSPROPERTY_CAMERACONTROL_FOCUS_RELATIVE           // RW O
+                ,
+            KSPROPERTY_CAMERACONTROL_PANTILT_RELATIVE         // RW O
+                ,
+            KSPROPERTY_CAMERACONTROL_FOCAL_LENGTH             // R  O    
+                , KSPROPERTY_CAMERACONTROL_AUTO_EXPOSURE_PRIORITY   // RW O
+
+        }
+
         static void Main(string[] args)
         {
-            
+
             var devices = DsDevice.GetDevicesOfCat(FilterCategory.VideoInputDevice);
 
             var dev = devices[1] as DsDevice;
@@ -26,18 +61,45 @@ namespace ConsoleApplication3
             IMoniker i = dev.Mon as IMoniker;
             graphBuilder.AddSourceFilterForMoniker(i, null, dev.Name, out filter);
             var CamControl = filter as IAMCameraControl;
+
+            var KSCrazyStuff = filter as IKsPropertySet;
+
+            Guid PROPSETID_VIDCAP_CAMERACONTROL = new Guid(0xc6e13370, 0x30ac, 0x11d0, 0xa1, 0x8c, 0x00, 0xa0, 0xc9, 0x11, 0x89, 0x56);
+
+
+            KSPropertySupport supported = new KSPropertySupport();
+            KSCrazyStuff.QuerySupported(PROPSETID_VIDCAP_CAMERACONTROL,
+                (int)KSPROPERTY_VIDCAP_CAMERACONTROL.KSPROPERTY_CAMERACONTROL_PAN_RELATIVE,
+                out supported);
+
+            KSCrazyStuff.Set(PROPSETID_VIDCAP_CAMERACONTROL,
+                (int)KSPROPERTY_VIDCAP_CAMERACONTROL.KSPROPERTY_CAMERACONTROL_PAN_RELATIVE, 
+                IntPtr.Zero, 0, IntPtr.Zero, 1);
+
+
+            KSCrazyStuff.Set(PROPSETID_VIDCAP_CAMERACONTROL,
+                (int)KSPROPERTY_VIDCAP_CAMERACONTROL.KSPROPERTY_CAMERACONTROL_PAN_RELATIVE,
+                IntPtr.Zero, 0, IntPtr.Zero, 0);
+
+
             int oldZoom = 0;
-            CameraControlFlags oldFlags;
-            CamControl.Get(CameraControlProperty.Zoom, out oldZoom, out oldFlags);
-            CamControl.Set(CameraControlProperty.Zoom, 150, CameraControlFlags.Manual );
+            CameraControlFlags oldFlags = CameraControlFlags.Manual;
+            var e = CamControl.Get(CameraControlProperty.Pan, out oldZoom, out oldFlags);
+            CamControl.Set(CameraControlProperty.Zoom, 500, CameraControlFlags.Manual);
             //Console.ReadLine();
             CamControl.Set(CameraControlProperty.Zoom, 100, CameraControlFlags.Manual);
+
+            int iMin, iMax, iStep, iDefault;
+            CameraControlFlags flag;
+            CamControl.GetRange(CameraControlProperty.Zoom, out iMin, out iMax, out iStep, out iDefault, out flag);
 
             //This doesn't work and that's deeply lame
             int oldPan = 0;
             int oldTilt = 0;
             var e1 = CamControl.Get(CameraControlProperty.Pan, out oldPan, out oldFlags);
             var e2 = CamControl.Get(CameraControlProperty.Tilt, out oldTilt, out oldFlags);
+
+            var e3 = CamControl.Set(CameraControlProperty.Pan, 1, CameraControlFlags.Manual | CameraControlFlags.Relative);
 
 
 
@@ -68,9 +130,9 @@ namespace ConsoleApplication3
                 _device.CloseDevice();
             }
             Console.WriteLine("closed");
-            
+
         }
-        
+
         public static byte[] StringToByteArray(string hex)
         {
             return Enumerable.Range(0, hex.Length)
@@ -85,7 +147,7 @@ namespace ConsoleApplication3
             if (!_device.IsConnected) { return; }
 
             string hex = BitConverter.ToString(report.Data);
-            hex = hex.Replace("-",":");
+            hex = hex.Replace("-", ":");
             Console.WriteLine(hex);
             Console.WriteLine();
 
