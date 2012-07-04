@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using HidLibrary;
 using DirectShowLib;
 using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.InteropServices;
@@ -12,11 +8,6 @@ namespace ConsoleApplication3
 {
     class Program
     {
-
-        private static HidDevice _device;
-
-        private const int HidReportId = 0x4;
-
         enum KSPROPERTY_VIDCAP_CAMERACONTROL
         {
             KSPROPERTY_CAMERACONTROL_PAN,
@@ -27,29 +18,18 @@ namespace ConsoleApplication3
             KSPROPERTY_CAMERACONTROL_IRIS,
             KSPROPERTY_CAMERACONTROL_FOCUS,
             KSPROPERTY_CAMERACONTROL_SCANMODE,
-            KSPROPERTY_CAMERACONTROL_PRIVACY                  // RW O
-                ,
-            KSPROPERTY_CAMERACONTROL_PANTILT                  // RW O
-                ,
-            KSPROPERTY_CAMERACONTROL_PAN_RELATIVE             // RW O
-                ,
-            KSPROPERTY_CAMERACONTROL_TILT_RELATIVE            // RW O
-                ,
-            KSPROPERTY_CAMERACONTROL_ROLL_RELATIVE            // RW O
-                ,
-            KSPROPERTY_CAMERACONTROL_ZOOM_RELATIVE            // RW O
-                ,
-            KSPROPERTY_CAMERACONTROL_EXPOSURE_RELATIVE        // RW O
-                ,
-            KSPROPERTY_CAMERACONTROL_IRIS_RELATIVE            // RW O
-                ,
-            KSPROPERTY_CAMERACONTROL_FOCUS_RELATIVE           // RW O
-                ,
-            KSPROPERTY_CAMERACONTROL_PANTILT_RELATIVE         // RW O
-                ,
-            KSPROPERTY_CAMERACONTROL_FOCAL_LENGTH             // R  O    
-                , KSPROPERTY_CAMERACONTROL_AUTO_EXPOSURE_PRIORITY   // RW O
-
+            KSPROPERTY_CAMERACONTROL_PRIVACY,
+            KSPROPERTY_CAMERACONTROL_PANTILT,
+            KSPROPERTY_CAMERACONTROL_PAN_RELATIVE,
+            KSPROPERTY_CAMERACONTROL_TILT_RELATIVE,
+            KSPROPERTY_CAMERACONTROL_ROLL_RELATIVE,
+            KSPROPERTY_CAMERACONTROL_ZOOM_RELATIVE,
+            KSPROPERTY_CAMERACONTROL_EXPOSURE_RELATIVE,
+            KSPROPERTY_CAMERACONTROL_IRIS_RELATIVE,
+            KSPROPERTY_CAMERACONTROL_FOCUS_RELATIVE,
+            KSPROPERTY_CAMERACONTROL_PANTILT_RELATIVE,
+            KSPROPERTY_CAMERACONTROL_FOCAL_LENGTH,
+            KSPROPERTY_CAMERACONTROL_AUTO_EXPOSURE_PRIORITY
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -76,7 +56,7 @@ namespace ConsoleApplication3
         {
             [MarshalAs(UnmanagedType.I4)]
             public int Value;
-            
+
             [MarshalAs(UnmanagedType.U4)]
             public int Flags;
 
@@ -88,19 +68,16 @@ namespace ConsoleApplication3
             // Dummy added to get a succesful return of the Get, Set function
         }
 
-
         static void Main(string[] args)
         {
-
             var devices = DsDevice.GetDevicesOfCat(FilterCategory.VideoInputDevice);
-
+            //TODO: Config? First Logitech?
             var dev = devices[1] as DsDevice;
             IFilterGraph2 graphBuilder = new FilterGraph() as IFilterGraph2;
             DirectShowLib.IBaseFilter filter = null;
             IMoniker i = dev.Mon as IMoniker;
             graphBuilder.AddSourceFilterForMoniker(i, null, dev.Name, out filter);
             var CamControl = filter as IAMCameraControl;
-
             var KSCrazyStuff = filter as IKsPropertySet;
 
             Guid PROPSETID_VIDCAP_CAMERACONTROL = new Guid(0xc6e13370, 0x30ac, 0x11d0, 0xa1, 0x8c, 0x00, 0xa0, 0xc9, 0x11, 0x89, 0x56);
@@ -113,8 +90,7 @@ namespace ConsoleApplication3
             if (supported.HasFlag(KSPropertySupport.Set) && supported.HasFlag(KSPropertySupport.Get))
             {
                 // Create and prepare data structures
-                KSPROPERTY_CAMERACONTROL_S control =
-                    new KSPROPERTY_CAMERACONTROL_S();
+                KSPROPERTY_CAMERACONTROL_S control = new KSPROPERTY_CAMERACONTROL_S();
 
                 IntPtr controlData = Marshal.AllocCoTaskMem(Marshal.SizeOf(control));
                 IntPtr instData = Marshal.AllocCoTaskMem(Marshal.SizeOf(control.Instance));
@@ -123,11 +99,6 @@ namespace ConsoleApplication3
                 //// Convert the data
                 //Marshal.StructureToPtr(control, controlData, true);
                 //Marshal.StructureToPtr(control.Instance, instData, true);
-
-                ////Get pan data
-                //var hr = KSCrazyStuff.Get(PROPSETID_VIDCAP_CAMERACONTROL,
-                //   (int)KSPROPERTY_VIDCAP_CAMERACONTROL.KSPROPERTY_CAMERACONTROL_PAN_RELATIVE,
-                //   instData, Marshal.SizeOf(control.Instance), controlData, Marshal.SizeOf(control), out cbBytes);
 
                 int oldZoom = 0;
                 CameraControlFlags oldFlags = CameraControlFlags.Manual;
@@ -142,20 +113,28 @@ namespace ConsoleApplication3
                     int moveDir = 0;
                     var axis = KSPROPERTY_VIDCAP_CAMERACONTROL.KSPROPERTY_CAMERACONTROL_TILT_RELATIVE;
                     ConsoleKeyInfo info = Console.ReadKey();
-                    if (info.Key == ConsoleKey.LeftArrow) {
+                    if (info.Key == ConsoleKey.LeftArrow)
+                    {
                         axis = KSPROPERTY_VIDCAP_CAMERACONTROL.KSPROPERTY_CAMERACONTROL_PAN_RELATIVE;
                         moveDir = -1;
-                    } else if (info.Key == ConsoleKey.RightArrow) {
+                    }
+                    else if (info.Key == ConsoleKey.RightArrow)
+                    {
                         axis = KSPROPERTY_VIDCAP_CAMERACONTROL.KSPROPERTY_CAMERACONTROL_PAN_RELATIVE;
                         moveDir = 1;
-                    } else if(info.Key == ConsoleKey.UpArrow) {
+                    }
+                    else if (info.Key == ConsoleKey.UpArrow)
+                    {
                         axis = KSPROPERTY_VIDCAP_CAMERACONTROL.KSPROPERTY_CAMERACONTROL_TILT_RELATIVE;
                         moveDir = 1;
-                    } else if(info.Key == ConsoleKey.DownArrow) {
+                    }
+                    else if (info.Key == ConsoleKey.DownArrow)
+                    {
                         axis = KSPROPERTY_VIDCAP_CAMERACONTROL.KSPROPERTY_CAMERACONTROL_TILT_RELATIVE;
                         moveDir = -1;
                     }
-                    else if (info.Key == ConsoleKey.Home) {
+                    else if (info.Key == ConsoleKey.Home)
+                    {
                         oldZoom = Zoom(CamControl, oldZoom, 1);
 
                         continue;
@@ -174,7 +153,7 @@ namespace ConsoleApplication3
                     var hr2 = KSCrazyStuff.Set(PROPSETID_VIDCAP_CAMERACONTROL,
                         (int)axis,
                        instData, Marshal.SizeOf(control.Instance), controlData, Marshal.SizeOf(control));
-                    
+
                     Thread.Sleep(20);
 
                     control.Instance.Value = 0;
@@ -185,53 +164,19 @@ namespace ConsoleApplication3
                     var hr3 = KSCrazyStuff.Set(PROPSETID_VIDCAP_CAMERACONTROL,
                         (int)axis,
                        instData, Marshal.SizeOf(control.Instance), controlData, Marshal.SizeOf(control));
-                    
+
                     //if (controlData != IntPtr.Zero) { Marshal.FreeCoTaskMem(controlData); }
                     //if (instData != IntPtr.Zero) { Marshal.FreeCoTaskMem(instData); }
+
+                    //TODO: We are leaking like a sieve.
                 }
             }
-
-
-            return;
-
-
-
-
-
-            return;
-
-
-
-            //var devices = HidDevices.GetDevice("\\?\hid#vid_046d&pid_0838&mi_03&col01#8&e58617f&0&0000#{4d1e55b2-f16f-11cf-88cb-001111000030}");
-            //foreach (var device in devices)
-            _device = HidDevices.Enumerate(0x46D, 0x838).FirstOrDefault();
-
-            Console.WriteLine(_device.Description);
-            try
-            {
-                //_device.OpenDevice();
-                //_device.MonitorDeviceEvents = true;
-                _device.ReadReport(OnReport);
-
-                var h = _device.CreateReport();
-                h.ReportId = 236;
-                h.Data[0] = 0x1;
-
-                _device.WriteReport(h);
-                Console.ReadKey();
-            }
-            finally
-            {
-                _device.CloseDevice();
-            }
-            Console.WriteLine("closed");
-
         }
 
         private static int Zoom(IAMCameraControl CamControl, int oldZoom, int direction)
         {
             int newZoom = 100;
-            if(direction > 0)
+            if (direction > 0)
                 newZoom = oldZoom + 10;
             else if (direction < 0)
                 newZoom = oldZoom - 10;
@@ -240,27 +185,6 @@ namespace ConsoleApplication3
             newZoom = Math.Min(500, newZoom);
             CamControl.Set(CameraControlProperty.Zoom, newZoom, CameraControlFlags.Manual);
             return newZoom;
-        }
-
-        public static byte[] StringToByteArray(string hex)
-        {
-            return Enumerable.Range(0, hex.Length)
-                             .Where(x => x % 2 == 0)
-                             .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
-                             .ToArray();
-        }
-
-
-        private static void OnReport(HidReport report)
-        {
-            if (!_device.IsConnected) { return; }
-
-            string hex = BitConverter.ToString(report.Data);
-            hex = hex.Replace("-", ":");
-            Console.WriteLine(hex);
-            Console.WriteLine();
-
-            _device.ReadReport(OnReport);
         }
     }
 }
