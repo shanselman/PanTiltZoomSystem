@@ -5,6 +5,8 @@ using System.Text;
 using HidLibrary;
 using DirectShowLib;
 using System.Runtime.InteropServices.ComTypes;
+using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace ConsoleApplication3
 {
@@ -50,6 +52,43 @@ namespace ConsoleApplication3
 
         }
 
+        [StructLayout(LayoutKind.Sequential)]
+        public struct KSPROPERTY
+        {
+            // size Guid is long + 2 short + 8 byte = 4 longs
+            Guid Set;
+            [MarshalAs(UnmanagedType.U4)]
+            int Id;
+            [MarshalAs(UnmanagedType.U4)]
+            int Flags;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct KSPROPERTY_CAMERACONTROL_S
+        {
+            /// <summary> Property Guid </summary>
+            public KSPROPERTY Property;
+            public KSPROPERTY_CAMERACONTROL Instance;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct KSPROPERTY_CAMERACONTROL
+        {
+            [MarshalAs(UnmanagedType.I4)]
+            public int Value;
+            
+            [MarshalAs(UnmanagedType.U4)]
+            public int Flags;
+
+            [MarshalAs(UnmanagedType.U4)]
+            public int Capabilities;
+
+            [MarshalAs(UnmanagedType.U4)]
+            public int Dummy;
+            // Dummy added to get a succesful return of the Get, Set function
+        }
+
+
         static void Main(string[] args)
         {
 
@@ -66,40 +105,96 @@ namespace ConsoleApplication3
 
             Guid PROPSETID_VIDCAP_CAMERACONTROL = new Guid(0xc6e13370, 0x30ac, 0x11d0, 0xa1, 0x8c, 0x00, 0xa0, 0xc9, 0x11, 0x89, 0x56);
 
-
             KSPropertySupport supported = new KSPropertySupport();
             KSCrazyStuff.QuerySupported(PROPSETID_VIDCAP_CAMERACONTROL,
                 (int)KSPROPERTY_VIDCAP_CAMERACONTROL.KSPROPERTY_CAMERACONTROL_PAN_RELATIVE,
                 out supported);
 
-            KSCrazyStuff.Set(PROPSETID_VIDCAP_CAMERACONTROL,
-                (int)KSPROPERTY_VIDCAP_CAMERACONTROL.KSPROPERTY_CAMERACONTROL_PAN_RELATIVE, 
-                IntPtr.Zero, 0, IntPtr.Zero, 1);
+            if (supported.HasFlag(KSPropertySupport.Set) && supported.HasFlag(KSPropertySupport.Get))
+            {
+                // Create and prepare data structures
+                KSPROPERTY_CAMERACONTROL_S control =
+                    new KSPROPERTY_CAMERACONTROL_S();
+
+                IntPtr controlData = Marshal.AllocCoTaskMem(Marshal.SizeOf(control));
+                IntPtr instData = Marshal.AllocCoTaskMem(Marshal.SizeOf(control.Instance));
+                int cbBytes = 0;
+
+                //// Convert the data
+                //Marshal.StructureToPtr(control, controlData, true);
+                //Marshal.StructureToPtr(control.Instance, instData, true);
+
+                ////Get pan data
+                //var hr = KSCrazyStuff.Get(PROPSETID_VIDCAP_CAMERACONTROL,
+                //   (int)KSPROPERTY_VIDCAP_CAMERACONTROL.KSPROPERTY_CAMERACONTROL_PAN_RELATIVE,
+                //   instData, Marshal.SizeOf(control.Instance), controlData, Marshal.SizeOf(control), out cbBytes);
+
+                int oldZoom = 0;
+                CameraControlFlags oldFlags = CameraControlFlags.Manual;
+                var e = CamControl.Get(CameraControlProperty.Pan, out oldZoom, out oldFlags);
+
+                int iMin, iMax, iStep, iDefault;
+                CameraControlFlags flag;
+                CamControl.GetRange(CameraControlProperty.Zoom, out iMin, out iMax, out iStep, out iDefault, out flag);
+
+                while (true)
+                {
+                    int moveDir = 0;
+                    var axis = KSPROPERTY_VIDCAP_CAMERACONTROL.KSPROPERTY_CAMERACONTROL_TILT_RELATIVE;
+                    ConsoleKeyInfo info = Console.ReadKey();
+                    if (info.Key == ConsoleKey.LeftArrow) {
+                        axis = KSPROPERTY_VIDCAP_CAMERACONTROL.KSPROPERTY_CAMERACONTROL_PAN_RELATIVE;
+                        moveDir = -1;
+                    } else if (info.Key == ConsoleKey.RightArrow) {
+                        axis = KSPROPERTY_VIDCAP_CAMERACONTROL.KSPROPERTY_CAMERACONTROL_PAN_RELATIVE;
+                        moveDir = 1;
+                    } else if(info.Key == ConsoleKey.UpArrow) {
+                        axis = KSPROPERTY_VIDCAP_CAMERACONTROL.KSPROPERTY_CAMERACONTROL_TILT_RELATIVE;
+                        moveDir = 1;
+                    } else if(info.Key == ConsoleKey.DownArrow) {
+                        axis = KSPROPERTY_VIDCAP_CAMERACONTROL.KSPROPERTY_CAMERACONTROL_TILT_RELATIVE;
+                        moveDir = -1;
+                    }
+                    else if (info.Key == ConsoleKey.Home) {
+                        oldZoom = Zoom(CamControl, oldZoom, 1);
+
+                        continue;
+                    }
+                    else if (info.Key == ConsoleKey.End)
+                    {
+                        oldZoom = Zoom(CamControl, oldZoom, -1);
+                        continue;
+                    }
+
+                    control.Instance.Value = moveDir;
+                    control.Instance.Flags = (int)CameraControlFlags.Relative;
+
+                    Marshal.StructureToPtr(control, controlData, true);
+                    Marshal.StructureToPtr(control.Instance, instData, true);
+                    var hr2 = KSCrazyStuff.Set(PROPSETID_VIDCAP_CAMERACONTROL,
+                        (int)axis,
+                       instData, Marshal.SizeOf(control.Instance), controlData, Marshal.SizeOf(control));
+                    
+                    Thread.Sleep(20);
+
+                    control.Instance.Value = 0;
+                    control.Instance.Flags = (int)CameraControlFlags.Relative;
+
+                    Marshal.StructureToPtr(control, controlData, true);
+                    Marshal.StructureToPtr(control.Instance, instData, true);
+                    var hr3 = KSCrazyStuff.Set(PROPSETID_VIDCAP_CAMERACONTROL,
+                        (int)axis,
+                       instData, Marshal.SizeOf(control.Instance), controlData, Marshal.SizeOf(control));
+                    
+                    //if (controlData != IntPtr.Zero) { Marshal.FreeCoTaskMem(controlData); }
+                    //if (instData != IntPtr.Zero) { Marshal.FreeCoTaskMem(instData); }
+                }
+            }
 
 
-            KSCrazyStuff.Set(PROPSETID_VIDCAP_CAMERACONTROL,
-                (int)KSPROPERTY_VIDCAP_CAMERACONTROL.KSPROPERTY_CAMERACONTROL_PAN_RELATIVE,
-                IntPtr.Zero, 0, IntPtr.Zero, 0);
+            return;
 
 
-            int oldZoom = 0;
-            CameraControlFlags oldFlags = CameraControlFlags.Manual;
-            var e = CamControl.Get(CameraControlProperty.Pan, out oldZoom, out oldFlags);
-            CamControl.Set(CameraControlProperty.Zoom, 500, CameraControlFlags.Manual);
-            //Console.ReadLine();
-            CamControl.Set(CameraControlProperty.Zoom, 100, CameraControlFlags.Manual);
-
-            int iMin, iMax, iStep, iDefault;
-            CameraControlFlags flag;
-            CamControl.GetRange(CameraControlProperty.Zoom, out iMin, out iMax, out iStep, out iDefault, out flag);
-
-            //This doesn't work and that's deeply lame
-            int oldPan = 0;
-            int oldTilt = 0;
-            var e1 = CamControl.Get(CameraControlProperty.Pan, out oldPan, out oldFlags);
-            var e2 = CamControl.Get(CameraControlProperty.Tilt, out oldTilt, out oldFlags);
-
-            var e3 = CamControl.Set(CameraControlProperty.Pan, 1, CameraControlFlags.Manual | CameraControlFlags.Relative);
 
 
 
@@ -131,6 +226,20 @@ namespace ConsoleApplication3
             }
             Console.WriteLine("closed");
 
+        }
+
+        private static int Zoom(IAMCameraControl CamControl, int oldZoom, int direction)
+        {
+            int newZoom = 100;
+            if(direction > 0)
+                newZoom = oldZoom + 10;
+            else if (direction < 0)
+                newZoom = oldZoom - 10;
+
+            newZoom = Math.Max(100, newZoom);
+            newZoom = Math.Min(500, newZoom);
+            CamControl.Set(CameraControlProperty.Zoom, newZoom, CameraControlFlags.Manual);
+            return newZoom;
         }
 
         public static byte[] StringToByteArray(string hex)
