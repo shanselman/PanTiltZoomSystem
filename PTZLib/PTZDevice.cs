@@ -15,7 +15,7 @@ namespace PTZ
         Absolute
     }
 
-    class PTZDevice
+    public class PTZDevice
     {
         private readonly Guid PROPSETID_VIDCAP_CAMERACONTROL = new Guid(0xc6e13370, 0x30ac, 0x11d0, 0xa1, 0x8c, 0x00, 0xa0, 0xc9, 0x11, 0x89, 0x56);
         
@@ -161,7 +161,6 @@ namespace PTZ
         {
             return new PTZDevice(name, type);
         }
-
     }
 
     class KSProperties

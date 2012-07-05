@@ -1,11 +1,10 @@
 ﻿using System;
-using DirectShowLib;
 using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.InteropServices;
 using System.Threading;
 using PTZ;
 
-namespace ConsoleApplication3
+namespace PTZDeviceConsole
 {
     class Program
     {
