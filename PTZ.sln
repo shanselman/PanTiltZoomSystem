@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTZDevice", "PTZLib\PTZDevice.csproj", "{7345DC27-7F35-43AD-86B4-6826FC1475BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTZDeviceConsole", "PTZDeviceConsole\PTZDeviceConsole.csproj", "{1B6F2E32-0C57-4FD7-AFF2-DE0227D63D68}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTZWebSite", "PTZWebSite\PTZWebSite.csproj", "{3CBBB6CC-4348-409E-B24E-CE925BFA8988}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1B6F2E32-0C57-4FD7-AFF2-DE0227D63D68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B6F2E32-0C57-4FD7-AFF2-DE0227D63D68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B6F2E32-0C57-4FD7-AFF2-DE0227D63D68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B6F2E32-0C57-4FD7-AFF2-DE0227D63D68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CBBB6CC-4348-409E-B24E-CE925BFA8988}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CBBB6CC-4348-409E-B24E-CE925BFA8988}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CBBB6CC-4348-409E-B24E-CE925BFA8988}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CBBB6CC-4348-409E-B24E-CE925BFA8988}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7345DC27-7F35-43AD-86B4-6826FC1475BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7345DC27-7F35-43AD-86B4-6826FC1475BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7345DC27-7F35-43AD-86B4-6826FC1475BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7345DC27-7F35-43AD-86B4-6826FC1475BE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

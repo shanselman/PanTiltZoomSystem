@@ -3,6 +3,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.InteropServices;
 using System.Threading;
 using PTZ;
+using System.Configuration;
 
 namespace PTZDeviceConsole
 {
@@ -11,7 +12,7 @@ namespace PTZDeviceConsole
 
         static void Main(string[] args)
         {
-            var p = PTZDevice.GetDevice("BCC950 ConferenceCam", PTZType.Relative);
+            var p = PTZDevice.GetDevice(ConfigurationManager.AppSettings["DeviceName"], PTZType.Relative);
 
             while (true)
             {
