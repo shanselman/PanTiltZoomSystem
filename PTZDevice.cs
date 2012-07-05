@@ -34,10 +34,10 @@ namespace PTZ
             var devices = DsDevice.GetDevicesOfCat(FilterCategory.VideoInputDevice);
             var device = devices.Where(d => d.Name == name).First();
 
-            if (_device == null) throw new ApplicationException(String.Format("Couldn't find device named {0}!", name));
-
             _device = device;
             _type = type;
+
+            if (_device == null) throw new ApplicationException(String.Format("Couldn't find device named {0}!", name));
 
             IFilterGraph2 graphBuilder = new FilterGraph() as IFilterGraph2;
             IBaseFilter filter = null;
