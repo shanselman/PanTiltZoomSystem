@@ -32,7 +32,7 @@ namespace PTZ
         private PTZDevice(string name, PTZType type)
         {
             var devices = DsDevice.GetDevicesOfCat(FilterCategory.VideoInputDevice);
-            var device = devices.Where(d => d.Name == name).First();
+            var device = devices.Where(d => d.Name == name).FirstOrDefault();
 
             _device = device;
             _type = type;
@@ -52,7 +52,7 @@ namespace PTZ
 
             //TODO: Add Absolute
             if (type == PTZType.Relative &&
-                !(SupportFor(KSProperties.CameraControlFeature.KSPROPERTY_CAMERACONTROL_PAN_RELATIVE)                &&
+                !(SupportFor(KSProperties.CameraControlFeature.KSPROPERTY_CAMERACONTROL_PAN_RELATIVE) &&
                 SupportFor(KSProperties.CameraControlFeature.KSPROPERTY_CAMERACONTROL_TILT_RELATIVE)))
             {
                 throw new NotSupportedException("This camera doesn't appear to support Relative Pan and Tilt");
@@ -104,13 +104,12 @@ namespace PTZ
             Marshal.StructureToPtr(control, controlData, true);
             Marshal.StructureToPtr(control.Instance, instData, true);
             var hr2 = _ksPropertySet.Set(PROPSETID_VIDCAP_CAMERACONTROL, (int)axis,
-               instData, Marshal.SizeOf(control.Instance), 
-               controlData, Marshal.SizeOf(control));
+               instData, Marshal.SizeOf(control.Instance), controlData, Marshal.SizeOf(control));
 
             //TODO: It's a DC motor, no better way?
             Thread.Sleep(20);
 
-            control.Instance.Value = 0;
+            control.Instance.Value = 0; //STOP!
             control.Instance.Flags = (int)CameraControlFlags.Relative;
 
             Marshal.StructureToPtr(control, controlData, true);
@@ -148,7 +147,7 @@ namespace PTZ
             int oldZoom = GetCurrentZoom();
             int newZoom = ZoomDefault; 
             if (direction > 0)
-                newZoom = oldZoom + 10;
+                newZoom = oldZoom + 10; //10 is magic...could be anything?
             else if (direction < 0)
                 newZoom = oldZoom - 10;
 
