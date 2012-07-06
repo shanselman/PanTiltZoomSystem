@@ -1,0 +1,86 @@
+﻿<Application x:Class="PTZRemoteLyncOverlay.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+         
+        <SolidColorBrush x:Key="NotQuiteTransparent" Color="#01000000">
+        </SolidColorBrush>
+        
+    	<DrawingBrush x:Key="Arrow" Stretch="Uniform">
+    		<DrawingBrush.Drawing>
+    			<DrawingGroup>
+    				<GeometryDrawing Brush="White"
+                                     Geometry="F1 M 173.354,624.292L 173.354,594.078L 188.461,609.185M 177.738,583.325C 163.457,583.325 151.88,594.902 151.88,609.185C 151.88,623.468 163.457,635.044 177.738,635.044C 192.021,635.044 203.598,623.468 203.598,609.185C 203.598,594.902 192.021,583.325 177.738,583.325 Z ">
+                    </GeometryDrawing>
+    			</DrawingGroup>
+    		</DrawingBrush.Drawing>
+    	</DrawingBrush>
+
+        <DrawingBrush x:Key="ZoomIn" Stretch="Uniform">
+            <DrawingBrush.Drawing>
+                <DrawingGroup>
+                    <GeometryDrawing Brush="White"
+                                     Geometry="F1M-1781.43,3679.32L-1796.41,3661.51C-1793.9,3658.29 -1792.24,3654.37 -1791.79,3650.02 -1790.55,3637.73 -1799.49,3626.76 -1811.79,3625.51 -1824.07,3624.26 -1835.04,3633.21 -1836.29,3645.5 -1837.54,3657.79 -1828.59,3668.77 -1816.3,3670.01 -1812.21,3670.42 -1808.25,3669.71 -1804.76,3668.11L-1789.58,3686.16C-1787.68,3688.41 -1784.33,3688.71 -1782.08,3686.81 -1779.84,3684.92 -1779.54,3681.56 -1781.43,3679.32 M-1805.59,3651.99L-1810.74,3651.99 -1810.74,3657.14C-1810.74,3659.13 -1812.36,3660.76 -1814.37,3660.76 -1816.37,3660.76 -1818,3659.13 -1818,3657.14L-1818,3651.99 -1823.14,3651.99C-1825.14,3651.99 -1826.77,3650.36 -1826.77,3648.37 -1826.77,3646.36 -1825.14,3644.74 -1823.14,3644.74L-1818,3644.74 -1818,3639.58C-1818,3637.58 -1816.37,3635.96 -1814.37,3635.96 -1812.36,3635.96 -1810.74,3637.58 -1810.74,3639.58L-1810.74,3644.74 -1805.59,3644.74C-1803.59,3644.74 -1801.96,3646.36 -1801.96,3648.37 -1801.96,3650.36 -1803.59,3651.99 -1805.59,3651.99">
+                    </GeometryDrawing>
+                </DrawingGroup>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+
+        <DrawingBrush x:Key="ZoomOut" Stretch="Uniform">
+            <DrawingBrush.Drawing>
+                <DrawingGroup>
+                    <GeometryDrawing Brush="White"
+                                     Geometry="F1M-1778.84,3888.28L-1793.83,3870.47C-1791.31,3867.25 -1789.65,3863.33 -1789.2,3858.98 -1787.96,3846.69 -1796.9,3835.72 -1809.2,3834.47 -1821.48,3833.22 -1832.45,3842.17 -1833.7,3854.45 -1834.95,3866.75 -1826,3877.72 -1813.71,3878.97 -1809.62,3879.38 -1805.66,3878.67 -1802.17,3877.06L-1787,3895.12C-1785.09,3897.37 -1781.74,3897.67 -1779.5,3895.77 -1777.25,3893.88 -1776.95,3890.52 -1778.84,3888.28 M-1800.22,3862.18L-1822.03,3862.18C-1824.51,3862.18 -1826.53,3860.16 -1826.53,3857.67 -1826.53,3855.18 -1824.51,3853.16 -1822.03,3853.16L-1800.22,3853.16C-1797.74,3853.16 -1795.72,3855.18 -1795.72,3857.67 -1795.72,3860.16 -1797.74,3862.18 -1800.22,3862.18">
+                    </GeometryDrawing>
+                </DrawingGroup>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+
+          
+        <Style x:Key="BorderlessButton" TargetType="{x:Type Button}">
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect ShadowDepth="0" BlurRadius="10" Color="Gray"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Name="border" Background="{TemplateBinding Background}">
+                            <ContentPresenter Name="content" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      Margin="{TemplateBinding Padding}"
+                                      RecognizesAccessKey="True"
+                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True" >
+                                <Setter TargetName="border" Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                <Setter TargetName="border" Property="RenderTransform" >
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1.05" ScaleY="1.05" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                <Setter TargetName="border" Property="RenderTransform" >
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX=".95" ScaleY=".95"  />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+       
+    </Application.Resources>
+</Application>

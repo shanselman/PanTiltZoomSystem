@@ -7,12 +7,26 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTZDeviceConsole", "PTZDevi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTZWebSite", "PTZWebSite\PTZWebSite.csproj", "{3CBBB6CC-4348-409E-B24E-CE925BFA8988}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTZSignalRRelay", "PTZSignalRRelay\PTZSignalRRelay.csproj", "{AAA3B0DC-D348-4A7B-87A4-6F0D4244ED35}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTZButtonsOverlay", "PTZRemoteLyncOverlay\PTZButtonsOverlay.csproj", "{5DC569F0-64D9-4A5E-971A-03423ACFE864}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LocalExamples", "LocalExamples", "{7321B774-422E-4283-8307-ED2C609F96DB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoreLibrary", "CoreLibrary", "{29A38098-7A48-4778-8C48-3F49867EEF45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTZRemoteCameraListener", "PTZRemoteCameraListener\PTZRemoteCameraListener.csproj", "{08FC8129-2B22-4877-8974-3858FBECD517}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{08FC8129-2B22-4877-8974-3858FBECD517}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08FC8129-2B22-4877-8974-3858FBECD517}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08FC8129-2B22-4877-8974-3858FBECD517}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08FC8129-2B22-4877-8974-3858FBECD517}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1B6F2E32-0C57-4FD7-AFF2-DE0227D63D68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1B6F2E32-0C57-4FD7-AFF2-DE0227D63D68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B6F2E32-0C57-4FD7-AFF2-DE0227D63D68}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -21,12 +35,25 @@ Global
 		{3CBBB6CC-4348-409E-B24E-CE925BFA8988}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CBBB6CC-4348-409E-B24E-CE925BFA8988}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CBBB6CC-4348-409E-B24E-CE925BFA8988}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DC569F0-64D9-4A5E-971A-03423ACFE864}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DC569F0-64D9-4A5E-971A-03423ACFE864}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DC569F0-64D9-4A5E-971A-03423ACFE864}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DC569F0-64D9-4A5E-971A-03423ACFE864}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7345DC27-7F35-43AD-86B4-6826FC1475BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7345DC27-7F35-43AD-86B4-6826FC1475BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7345DC27-7F35-43AD-86B4-6826FC1475BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7345DC27-7F35-43AD-86B4-6826FC1475BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAA3B0DC-D348-4A7B-87A4-6F0D4244ED35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAA3B0DC-D348-4A7B-87A4-6F0D4244ED35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAA3B0DC-D348-4A7B-87A4-6F0D4244ED35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAA3B0DC-D348-4A7B-87A4-6F0D4244ED35}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1B6F2E32-0C57-4FD7-AFF2-DE0227D63D68} = {7321B774-422E-4283-8307-ED2C609F96DB}
+		{3CBBB6CC-4348-409E-B24E-CE925BFA8988} = {7321B774-422E-4283-8307-ED2C609F96DB}
+		{7345DC27-7F35-43AD-86B4-6826FC1475BE} = {29A38098-7A48-4778-8C48-3F49867EEF45}
 	EndGlobalSection
 EndGlobal
