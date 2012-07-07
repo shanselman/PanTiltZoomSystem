@@ -46,7 +46,6 @@ namespace PTZRemoteCameraListener
             url = ConfigurationManager.AppSettings["relayServerUrl"];
             remoteGroup = Environment.MachineName; //They have to hardcode the group, but for us it's our machine name
             connection = new HubConnection(url);
-
             proxy = connection.CreateProxy("RelayHub");
 
             //Can't do this here because DirectShow has to be on the UI thread!
@@ -78,13 +77,16 @@ namespace PTZRemoteCameraListener
             try
             {
                 await connection.Start();
+                Log("After connection.Start()");
                 await proxy.Invoke("JoinRelay", remoteGroup);
+                Log("After JoinRelay");
             }
             catch (Exception pants)
             {
                 var foo = (WebException)pants.GetBaseException();
                 StreamReader r = new StreamReader(foo.Response.GetResponseStream());
                 string yousuck = r.ReadToEnd();
+                Log(yousuck);
                 throw;
             }
 
