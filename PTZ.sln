@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTZWebSite", "PTZWebSite\PT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTZSignalRRelay", "PTZSignalRRelay\PTZSignalRRelay.csproj", "{AAA3B0DC-D348-4A7B-87A4-6F0D4244ED35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTZButtonsOverlay", "PTZRemoteLyncOverlay\PTZButtonsOverlay.csproj", "{5DC569F0-64D9-4A5E-971A-03423ACFE864}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTZRemoteCameraController", "PTZRemoteLyncOverlay\PTZRemoteCameraController.csproj", "{5DC569F0-64D9-4A5E-971A-03423ACFE864}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LocalExamples", "LocalExamples", "{7321B774-422E-4283-8307-ED2C609F96DB}"
 EndProject

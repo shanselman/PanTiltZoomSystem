@@ -9,7 +9,6 @@ namespace PTZDeviceConsole
 {
     class Program
     {
-
         static void Main(string[] args)
         {
             var p = PTZDevice.GetDevice(ConfigurationManager.AppSettings["DeviceName"], PTZType.Relative);

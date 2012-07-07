@@ -1,7 +1,7 @@
 ﻿<Window x:Class="PTZRemoteCameraListener.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="PTZ Remote Camera Listener" Height="350" Width="525" ShowInTaskbar="True">
+        Title="PTZ Remote Camera Listener" Height="350" Width="525" ShowInTaskbar="True" Loaded="MainWindow_Loaded">
     <Grid Margin="0,0,9,0">
         <DockPanel LastChildFill="True">
             <Image DockPanel.Dock="Left" Height="Auto"  VerticalAlignment="Top" Source="bcc950.png" Stretch="None"/>
@@ -10,9 +10,11 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="1" Width="Auto" Height="Auto" VerticalAlignment="Top" >
+                <ScrollViewer x:Name="Scroll" Grid.Row="1" >
+                    <TextBlock x:Name="TextLog" Width="Auto" Height="Auto" VerticalAlignment="Top" >
                     Starting Up...
-                </TextBlock>
+                    </TextBlock>
+                </ScrollViewer>
             </Grid> 
         </DockPanel>
     </Grid>
