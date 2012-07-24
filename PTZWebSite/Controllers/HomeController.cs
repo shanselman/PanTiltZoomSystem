@@ -22,6 +22,7 @@ namespace PTZWebSite.Controllers
             p.Move(x,y);
         }
 
+        [HttpPost]
         public void Zoom(int value)
         {
             var p = PTZDevice.GetDevice(ConfigurationManager.AppSettings["DeviceName"], PTZType.Relative);
