@@ -1,0 +1,1 @@
+This is where DirectShowLib-2005.dll and PTZDevice.dll go.

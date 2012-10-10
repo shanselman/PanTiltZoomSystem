@@ -1,0 +1,1 @@
+Be sure to get https://github.com/shanselman/Logitech-BCC950-PTZ-Lib, build it and put it in /lib

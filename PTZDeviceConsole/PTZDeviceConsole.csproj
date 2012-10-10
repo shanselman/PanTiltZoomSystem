@@ -35,6 +35,9 @@
     <StartupObject>PTZDeviceConsole.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PTZDevice">
+      <HintPath>..\lib\PTZDevice.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -47,12 +50,6 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\PTZLib\PTZDevice.csproj">
-      <Project>{7345dc27-7f35-43ad-86b4-6826fc1475be}</Project>
-      <Name>PTZDevice</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
