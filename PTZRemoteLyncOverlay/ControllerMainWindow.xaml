@@ -1,7 +1,10 @@
 ﻿<Window x:Class="PTZRemoteLyncOverlay.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="PTZ Local Lync Overlay" Margin="10,10,10,10" Icon="bcc950.ico" Height="100" Width="145" Background="{StaticResource NotQuiteTransparent}" AllowsTransparency="True" WindowStyle="None" Topmost="True" MouseDown="MainWindow_MouseDown_1" ShowInTaskbar="True" Loaded="MainWindow_Loaded">
+        Title="PTZ Local Lync Overlay" Margin="10,10,10,10" Icon="bcc950.ico" 
+        Height="100" Width="145" 
+        AllowsTransparency="True" WindowStyle="None" Topmost="True" ShowInTaskbar="True" Background="Transparent"
+        MouseDown="MainWindow_MouseDown" Loaded="MainWindow_Loaded" Closing="MainWindow_Closing">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -14,6 +17,8 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+        <Border x:Name="DragArea" Background="{StaticResource NotQuiteTransparent}" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="4">
+        </Border>
         <Button x:Name="Up"  Tag="0,1" Click="MoveClick" Style="{DynamicResource BorderlessButton}" Grid.Row="0" Grid.Column="1" Background="{StaticResource Arrow}" RenderTransformOrigin="0.5,0.5" >
             <Button.RenderTransform>
                 <RotateTransform Angle="-90" />
