@@ -370,6 +370,9 @@ namespace PTZRemoteLyncOverlay
         private Rect lastRectangle;
         private bool running;
 
+        private string thisProcess;
+        private WindowSelectionEventArgs lastArgs;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="WindowMonitor" /> class.
         /// </summary>
@@ -379,6 +382,7 @@ namespace PTZRemoteLyncOverlay
         {
             checkProcessTimer = new System.Threading.Timer(CheckProcess, null, Timeout.Infinite, Timeout.Infinite);
             checkPositionTimer = new System.Threading.Timer(CheckPosition, null, Timeout.Infinite, Timeout.Infinite);
+            thisProcess = Process.GetCurrentProcess().ProcessName;
         }
 
         /// <summary>
@@ -483,9 +487,20 @@ namespace PTZRemoteLyncOverlay
             if (proc != null)
             {
                 var foreground = NativeMethods.ForegroundWindow;
-                var windowArgs = new WindowSelectionEventArgs(proc, NativeMethods.GetWindowInformation(foreground));
-                var selectWindow = SelectWindow;
-                if (selectWindow != null) selectWindow(this, windowArgs);
+
+                // Prevent "this" process from hijacking it.
+                WindowSelectionEventArgs windowArgs;
+                if (proc.ProcessName != thisProcess)
+                {
+                    windowArgs = new WindowSelectionEventArgs(proc, NativeMethods.GetWindowInformation(foreground));
+                    var selectWindow = SelectWindow;
+                    if (selectWindow != null) selectWindow(this, windowArgs);
+                    lastArgs = windowArgs;
+                }
+                else
+                {
+                    windowArgs = lastArgs;
+                }
 
                 if (windowArgs.SelectedWindow == null)
                 {
