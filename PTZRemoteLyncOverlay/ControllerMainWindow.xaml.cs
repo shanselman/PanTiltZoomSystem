@@ -30,6 +30,7 @@ namespace PTZRemoteLyncOverlay
 
             // Add more selectors as required here.
             selectors.Add(Lync2010_IMWindow_Selection);
+            selectors.Add(Lync2013_IMWindow_Selection);
             //selectors.Add(Skype5_Selection);
 
             windowMonitor.Activated += windowMonitor_Activated;
@@ -156,6 +157,48 @@ namespace PTZRemoteLyncOverlay
                 }
             }
         }
+
+
+
+        // MEF is probably overkill for this.
+        // If you have another window type or IM client to add you will need to use http://sourceforge.net/projects/windowdetective/
+        // to figure out (1) how to determine if a conversation is active and (2) which WindowInformation you should return.
+        const string Lync2013_IMWindow_Process = "lync";
+        const string Lync2013_IMWindow_CtrlNotifySink = "NetUICtrlNotifySink";
+        const string Lync2013_IMWindow_VideoParent = "LyncVdiBorderWindowClass";
+        const string Lync2013_IMWindow_IMWindow = "LyncConversationWindowClass";
+
+        // Specifically for the video in chat windows.
+        void Lync2013_IMWindow_Selection(object sender, WindowSelectionEventArgs e)
+        {
+            if (e.IsSelectionMade) return;
+
+            var info = e.ActiveWindow;
+            if (e.Process.ProcessName == Lync2013_IMWindow_Process && info.WindowClass == Lync2013_IMWindow_IMWindow)
+            {
+                // Get the last CtrlNotifySink that contains a LCC_VideoParent.
+                //var sink = info.ChildWindows.First(
+                //    x => x.WindowClass == Lync2013_IMWindow_CtrlNotifySink &&
+                //        x.ChildWindows.Any(y => y.WindowClass == Lync2013_IMWindow_VideoParent));
+
+                //TODO: Hm, looks like Lync 2013 does everything owner-draw so none of the child windows has any size or dimension?
+                //TODO: What do we do when Lync is marked as "always on top?"
+                var sink = info.ChildWindows.First(x => x.WindowClass == "NetUIHWND");
+
+                // Check if we got a result.
+                if (sink == null) return;
+
+                // Check that the CtrlNotifySink is visible.
+                if (sink.Style.HasFlag(WindowMonitor.WindowStyles.Visible))
+                {
+                    // Select the video area so that we get the overlay
+                    // appearing there.
+                    e.Select(sink);
+                }
+            }
+        }
+
+
         #endregion
     }
 }
