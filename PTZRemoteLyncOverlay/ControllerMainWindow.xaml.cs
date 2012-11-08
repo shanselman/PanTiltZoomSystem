@@ -87,10 +87,15 @@ namespace PTZRemoteLyncOverlay
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            base.OnClosing(e);
-            foreach (var item in selectors)
-                windowMonitor.SelectWindow -= item;
-            windowMonitor.Stop();
+            try //We really can't do anything except close here
+            {
+                //base.OnClosing(e); //Prevent a StackOverflow crash
+                
+                foreach (var item in selectors)
+                    windowMonitor.SelectWindow -= item;
+                windowMonitor.Stop();
+            }
+            catch (Exception) { };
         }
 
         void windowMonitor_LocationChanged(object sender, RectEventArgs e)
