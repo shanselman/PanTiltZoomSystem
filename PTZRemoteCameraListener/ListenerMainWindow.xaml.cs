@@ -17,7 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using PTZ;
-using SignalR.Client.Hubs;
+using Microsoft.AspNet.SignalR.Client.Hubs;
 
 namespace PTZRemoteCameraListener
 {
@@ -46,7 +46,7 @@ namespace PTZRemoteCameraListener
             url = ConfigurationManager.AppSettings["relayServerUrl"];
             remoteGroup = Environment.MachineName; //They have to hardcode the group, but for us it's our machine name
             connection = new HubConnection(url);
-            proxy = connection.CreateProxy("RelayHub");
+            proxy = connection.CreateHubProxy("RelayHub");
 
             //Can't do this here because DirectShow has to be on the UI thread!
             // This would cause an obscure COM casting error with no clue what's up. So, um, ya.

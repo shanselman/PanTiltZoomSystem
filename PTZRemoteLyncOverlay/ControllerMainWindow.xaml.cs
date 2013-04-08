@@ -13,8 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using SignalR.Client;
-using SignalR.Client.Hubs;
+using Microsoft.AspNet.SignalR.Client.Hubs;
 
 namespace PTZRemoteLyncOverlay
 {
@@ -73,7 +72,7 @@ namespace PTZRemoteLyncOverlay
             url = ConfigurationManager.AppSettings["relayServerUrl"];
             remoteGroup = ConfigurationManager.AppSettings["remoteGroup"];
             connection = new HubConnection(url);
-            proxy = connection.CreateProxy("RelayHub");
+            proxy = connection.CreateHubProxy("RelayHub");
             await connection.Start();
             await proxy.Invoke("JoinRelay", remoteGroup);
 
