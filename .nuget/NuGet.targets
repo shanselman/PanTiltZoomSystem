@@ -19,6 +19,12 @@
             <PackageSource Include="https://nuget.org/api/v2/" />
             <PackageSource Include="https://my-nuget-source/nuget/" />
         -->
+
+
+      <PackageSource Include="https://nuget.org/api/v2/" />
+
+      <!-- NOTE: This is custom for ASPNETWebStack Nightlies package restore in Kudu on Azure -->
+      <PackageSource Include="http://www.myget.org/F/aspnetwebstacknightly/" />
     </ItemGroup>
 
     <PropertyGroup Condition=" '$(OS)' == 'Windows_NT'">
