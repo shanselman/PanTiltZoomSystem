@@ -28,8 +28,8 @@ namespace PTZRemoteLyncOverlay
             InitializeComponent();
 
             // Add more selectors as required here.
-            selectors.Add(Lync2010_IMWindow_Selection);
-            selectors.Add(Lync2013_IMWindow_Selection);
+            //selectors.Add(Lync2010_IMWindow_Selection);
+            //selectors.Add(Lync2013_IMWindow_Selection);
             //selectors.Add(Skype5_Selection);
 
             windowMonitor.Activated += windowMonitor_Activated;
@@ -57,7 +57,7 @@ namespace PTZRemoteLyncOverlay
         {
             var ui = sender as Control;
             Point p = Point.Parse(ui.Tag.ToString());
-            await proxy.Invoke("Move", p.X, p.Y, remoteGroup);
+            await proxy.Invoke("Move", (int)p.X, (int)p.Y, remoteGroup);
         }
 
         private async void ZoomClick(object sender, RoutedEventArgs e)

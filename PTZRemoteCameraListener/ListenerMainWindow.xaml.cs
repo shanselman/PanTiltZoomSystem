@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.AspNet.SignalR.Client;
 using PTZ;
 using Microsoft.AspNet.SignalR.Client.Hubs;
 
@@ -47,6 +48,9 @@ namespace PTZRemoteCameraListener
             remoteGroup = Environment.MachineName; //They have to hardcode the group, but for us it's our machine name
             connection = new HubConnection(url);
             proxy = connection.CreateHubProxy("RelayHub");
+
+            connection.TraceLevel = TraceLevels.StateChanges | TraceLevels.Events;
+            connection.TraceWriter = new PTZRemoteTraceWriter(Log);
 
             //Can't do this here because DirectShow has to be on the UI thread!
             // This would cause an obscure COM casting error with no clue what's up. So, um, ya.
@@ -83,22 +87,21 @@ namespace PTZRemoteCameraListener
             }
             catch (Exception pants)
             {
-                var foo = (WebException)pants.GetBaseException();
-                StreamReader r = new StreamReader(foo.Response.GetResponseStream());
-                string yousuck = r.ReadToEnd();
-                Log(yousuck);
+                Log(pants.GetError().ToString());
                 throw;
             }
-
         }
 
         public void Log(string messsage)
         {
-            TextLog.Inlines.Add(new LineBreak());
-            TextLog.Inlines.Add(new Run(messsage));
+            magic.Post((_) =>
+            {
+                TextLog.Inlines.Add(new LineBreak());
+                TextLog.Inlines.Add(new Run(messsage));
 
-            Scroll.UpdateLayout();
-            Scroll.ScrollToVerticalOffset(TextLog.ActualHeight);
+                Scroll.UpdateLayout();
+                Scroll.ScrollToVerticalOffset(TextLog.ActualHeight);
+            }, null);
         }
     }
 }
