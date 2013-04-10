@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="PTZRemoteController_Android.PTZRemoteController_Android">
-	<uses-sdk />
-	<application android:label="PTZ Remote Controller">
+	<uses-sdk android:targetSdkVersion="12" android:minSdkVersion="12" />
+	<application android:label="PTZ Remote Controller" android:icon="@drawable/icon">
 	</application>
 </manifest>

@@ -47,12 +47,55 @@ namespace PTZRemoteControllerAndroid
 			// aapt resource value: 0x7f020000
 			public const int Icon = 2130837504;
 			
+			// aapt resource value: 0x7f020001
+			public const int Refresh = 2130837505;
+			
+			// aapt resource value: 0x7f020002
+			public const int Settings = 2130837506;
+			
 			static Drawable()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
 			}
 			
 			private Drawable()
+			{
+			}
+		}
+		
+		public partial class Id
+		{
+			
+			// aapt resource value: 0x7f070003
+			public const int MoveDown = 2131165187;
+			
+			// aapt resource value: 0x7f070001
+			public const int MoveLeft = 2131165185;
+			
+			// aapt resource value: 0x7f070002
+			public const int MoveRight = 2131165186;
+			
+			// aapt resource value: 0x7f070000
+			public const int MoveUp = 2131165184;
+			
+			// aapt resource value: 0x7f070007
+			public const int Reconnect = 2131165191;
+			
+			// aapt resource value: 0x7f070006
+			public const int Settings = 2131165190;
+			
+			// aapt resource value: 0x7f070005
+			public const int ZoomIn = 2131165189;
+			
+			// aapt resource value: 0x7f070004
+			public const int ZoomOut = 2131165188;
+			
+			static Id()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Id()
 			{
 			}
 		}
@@ -73,14 +116,30 @@ namespace PTZRemoteControllerAndroid
 			}
 		}
 		
+		public partial class Menu
+		{
+			
+			// aapt resource value: 0x7f060000
+			public const int RemoteMenu = 2131099648;
+			
+			static Menu()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Menu()
+			{
+			}
+		}
+		
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040001
-			public const int app_name = 2130968577;
+			// aapt resource value: 0x7f050001
+			public const int app_name = 2131034113;
 			
-			// aapt resource value: 0x7f040000
-			public const int hello = 2130968576;
+			// aapt resource value: 0x7f050000
+			public const int hello = 2131034112;
 			
 			static String()
 			{
@@ -88,6 +147,22 @@ namespace PTZRemoteControllerAndroid
 			}
 			
 			private String()
+			{
+			}
+		}
+		
+		public partial class Xml
+		{
+			
+			// aapt resource value: 0x7f040000
+			public const int Preferences = 2130968576;
+			
+			static Xml()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Xml()
 			{
 			}
 		}

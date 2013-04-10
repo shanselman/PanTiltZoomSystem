@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<EditTextPreference
+		android:key="RelayServerUrl"
+		android:title="Relay Server URL"
+		android:defaultValue="https://hanselmanlyncrelay.azurewebsites.net" />
+	<EditTextPreference
+		android:key="RemoteGroup"
+		android:title="Remote Group"
+		android:defaultValue="SHANSELMAN" />
+	<EditTextPreference
+		android:key="HubName"
+		android:title="Relay Hub"
+		android:defaultValue="RelayHub" />
+</PreferenceScreen>

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR.Client;
 using Microsoft.AspNet.SignalR.Client.Hubs;
@@ -19,15 +20,22 @@ namespace PTZRemoteController.Core
 		
 		public async Task<bool> Connect()
 		{
-			_connection = new HubConnection(_relayServerUrl);
-			_proxy = _connection.CreateHubProxy(_hubName);
-			
-			await _connection.Start();
-			
-			if (_connection.State == ConnectionState.Connected)
-				await _proxy.Invoke("JoinRelay", _remoteGroup);
-			
-			return _connection.State == ConnectionState.Connected;
+			try
+			{
+				_connection = new HubConnection(_relayServerUrl);
+				_proxy = _connection.CreateHubProxy(_hubName);
+				
+				await _connection.Start();
+				
+				if (_connection.State == ConnectionState.Connected)
+					await _proxy.Invoke("JoinRelay", _remoteGroup);
+
+				return _connection.State == ConnectionState.Connected;
+			}
+			catch (Exception)
+			{
+				return false;
+			}
 		}
 
 		public async Task MoveUp()

@@ -16,6 +16,7 @@
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <AssemblyName>PTZRemoteController-Android</AssemblyName>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
+    <TargetFrameworkVersion>v3.1</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -57,6 +58,7 @@
     <Compile Include="..\PTZRemoteController-iOS\Core\PTZRemote.cs">
       <Link>Core\PTZRemote.cs</Link>
     </Compile>
+    <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -67,10 +69,16 @@
     <AndroidResource Include="Resources\layout\Main.axml" />
     <AndroidResource Include="Resources\values\Strings.xml" />
     <AndroidResource Include="Resources\drawable\Icon.png" />
+    <AndroidResource Include="Resources\menu\RemoteMenu.xml" />
+    <AndroidResource Include="Resources\drawable\Refresh.png" />
+    <AndroidResource Include="Resources\drawable\Settings.png" />
+    <AndroidResource Include="Resources\xml\Preferences.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Core\" />
+    <Folder Include="Resources\menu\" />
+    <Folder Include="Resources\xml\" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="json.net">
