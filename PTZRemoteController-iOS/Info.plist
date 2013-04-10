@@ -5,10 +5,19 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>CFBundleDisplayName</key>
 	<string>PTZ Remote</string>
+	<key>CFBundleIconFiles</key>
+	<array>
+		<string>Icon@2x</string>
+		<string>Icon-72</string>
+		<string>Icon</string>
+		<string>Icon-Small-50</string>
+		<string>Icon-Small@2x</string>
+		<string>Icon-Small</string>
+	</array>
+	<key>CFBundleIdentifier</key>
+	<string>com.hanselman.ptzremote</string>
 </dict>
 </plist>

@@ -41,6 +41,6 @@ Global
 		{9D0BC0C8-58BC-42A1-93DB-39AD8B8142F3}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = PTZRemoteController-Android\PTZRemoteController-Android.csproj
+		StartupItem = PTZRemoteController-iOS\PTZRemoteController-iOS.csproj
 	EndGlobalSection
 EndGlobal

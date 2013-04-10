@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PreferenceSpecifiers</key>
+	<array>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>Relay Server URL</string>
+			<key>DefaultValue</key>
+			<string>https://hanselmanlyncrelay.azurewebsites.net</string>
+			<key>Key</key>
+			<string>RelayServerUrl</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>Remote Group</string>
+			<key>Key</key>
+			<string>remoteGroup</string>
+			<key>DefaultValue</key>
+			<string>SHANSELMAN</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>Hub Name</string>
+			<key>Key</key>
+			<string>hubName</string>
+			<key>DefaultValue</key>
+			<string>RelayHub</string>
+		</dict>
+	</array>
+	<key>StringsTable</key>
+	<string>Root</string>
+</dict>
+</plist>
