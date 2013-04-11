@@ -20,7 +20,7 @@
 			<key>Title</key>
 			<string>Remote Group</string>
 			<key>Key</key>
-			<string>remoteGroup</string>
+			<string>RemoteGroup</string>
 			<key>DefaultValue</key>
 			<string>SHANSELMAN</string>
 		</dict>
@@ -30,7 +30,7 @@
 			<key>Title</key>
 			<string>Hub Name</string>
 			<key>Key</key>
-			<string>hubName</string>
+			<string>HubName</string>
 			<key>DefaultValue</key>
 			<string>RelayHub</string>
 		</dict>

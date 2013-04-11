@@ -70,7 +70,7 @@
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Distribution: Gregory Shackles (V3N7UQX99Z)</CodesignKey>
     <BuildIpa>true</BuildIpa>
-    <CodesignProvision>49AB2597-3029-4433-91DB-25B4A9772FB7</CodesignProvision>
+    <CodesignProvision>1A461B76-204E-4D4B-9CDE-FC9E01D337B5</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
     <DebugType>none</DebugType>

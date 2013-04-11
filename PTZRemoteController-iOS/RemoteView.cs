@@ -23,12 +23,15 @@ namespace PTZRemoteControlleriOS
             Title = "PTZ Remote";
             View.BackgroundColor = UIColor.LightGray;
 
-			await ConnectToRelay();
-            AttachHandlers();
+			_remote = new PTZRemote();
 
-            var refreshButton = new UIBarButtonItem(UIBarButtonSystemItem.Refresh);
-            refreshButton.Clicked += delegate { ConnectToRelay(); };
-            NavigationItem.RightBarButtonItem = refreshButton;
+			AttachHandlers();
+
+			var refreshButton = new UIBarButtonItem(UIBarButtonSystemItem.Refresh);
+			refreshButton.Clicked += delegate { ConnectToRelay(); };
+			NavigationItem.RightBarButtonItem = refreshButton;
+
+			await ConnectToRelay();
         }
 
         private async Task ConnectToRelay()
@@ -51,11 +54,9 @@ namespace PTZRemoteControlleriOS
             {
                 var prefs = NSUserDefaults.StandardUserDefaults;
                 
-                _remote = new PTZRemote(
-                    prefs.StringForKey("RelayServerUrl"), 
-                    prefs.StringForKey("RemoteGroup"), 
-                    prefs.StringForKey("HubName"));
-                connected = await _remote.Connect();
+				connected = await _remote.Connect(prefs.StringForKey("RelayServerUrl"), 
+				                                  prefs.StringForKey("RemoteGroup"), 
+				                                  prefs.StringForKey("HubName"));
             }
             catch (Exception)
             {
@@ -70,9 +71,6 @@ namespace PTZRemoteControlleriOS
 
         private void AttachHandlers()
         {
-			if (_remote == null)
-				return;
-
             MoveUp.TouchUpInside += delegate { _remote.MoveUp(); };
             MoveDown.TouchUpInside += delegate { _remote.MoveDown(); };
             MoveRight.TouchUpInside += delegate { _remote.MoveRight(); };

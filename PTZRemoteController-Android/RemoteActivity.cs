@@ -23,8 +23,10 @@ namespace PTZRemoteControllerAndroid
 
 			PreferenceManager.SetDefaultValues(this, Resource.Xml.Preferences, false);
 
-			await ConnectToRelay();
+			_remote = new PTZRemote();
+
 			AttachHandlers();
+			await ConnectToRelay();
 		}
 
 		private async Task ConnectToRelay()
@@ -40,11 +42,9 @@ namespace PTZRemoteControllerAndroid
 			{
 				var prefs = PreferenceManager.GetDefaultSharedPreferences(this);
 
-				_remote = new PTZRemote(
-					prefs.GetString("RelayServerUrl", ""), 
-					prefs.GetString("RemoteGroup", ""), 
-					prefs.GetString("HubName", ""));
-				connected = await _remote.Connect();
+				connected = await _remote.Connect(prefs.GetString("RelayServerUrl", ""), 
+				                                  prefs.GetString("RemoteGroup", ""), 
+				                                  prefs.GetString("HubName", ""));
 			}
 			catch (Exception)
 			{
