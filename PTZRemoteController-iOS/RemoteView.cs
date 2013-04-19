@@ -12,10 +12,13 @@ namespace PTZRemoteControlleriOS
         private PTZRemote _remote;
         private double _currentZoomLevel = 0;
 
+        public UIBarButtonItem RefreshButton{get;set;}
+
         public RemoteView() : base ("RemoteView", null)
         {
         }
 		
+       
         public override async void ViewDidLoad ()
         {
             base.ViewDidLoad();
@@ -27,9 +30,9 @@ namespace PTZRemoteControlleriOS
 
 			AttachHandlers();
 
-			var refreshButton = new UIBarButtonItem(UIBarButtonSystemItem.Refresh);
-			refreshButton.Clicked += delegate { ConnectToRelay(); };
-			NavigationItem.RightBarButtonItem = refreshButton;
+			RefreshButton = new UIBarButtonItem(UIBarButtonSystemItem.Refresh);
+			RefreshButton.Clicked += delegate { ConnectToRelay(); };
+			NavigationItem.RightBarButtonItem = RefreshButton;
 
 			await ConnectToRelay();
         }
@@ -71,23 +74,61 @@ namespace PTZRemoteControlleriOS
 
         private void AttachHandlers()
         {
-            MoveUp.TouchUpInside += delegate { _remote.MoveUp(); };
-            MoveDown.TouchUpInside += delegate { _remote.MoveDown(); };
-            MoveRight.TouchUpInside += delegate { _remote.MoveRight(); };
-            MoveLeft.TouchUpInside += delegate { _remote.MoveLeft(); };
-            
+            MoveUp.TouchUpInside += HandleMoveUpTouched;
+            MoveDown.TouchUpInside += HandleMoveDownTouched;
+            MoveRight.TouchUpInside += HandleMoveRightTouched;
+            MoveLeft.TouchUpInside += HandleMoveLeftTouched;
+
             ZoomLevel.MinimumValue = double.MinValue;
             ZoomLevel.MaximumValue = double.MaxValue;
             ZoomLevel.Value = _currentZoomLevel;
-            ZoomLevel.ValueChanged += delegate 
-            {
-                if (ZoomLevel.Value > _currentZoomLevel)
-                    _remote.ZoomIn();
-                else
-                    _remote.ZoomOut();
-                
-                _currentZoomLevel = ZoomLevel.Value;
-            };
+            ZoomLevel.ValueChanged += HandleZoomValueChanged;
+        }
+
+        private void ReleaseEventHandlers()
+        {
+            MoveUp.TouchUpInside -= HandleMoveUpTouched;
+            MoveDown.TouchUpInside -= HandleMoveDownTouched;
+            MoveRight.TouchUpInside -= HandleMoveRightTouched;
+            MoveLeft.TouchUpInside -= HandleMoveLeftTouched;
+            ZoomLevel.ValueChanged -= HandleZoomValueChanged;
+            RefreshButton.Clicked -= HandleRefreshButtonClicked;
+
+        }
+
+        void HandleRefreshButtonClicked (object sender, EventArgs e)
+        {
+            ConnectToRelay();
+        }
+
+        void HandleMoveUpTouched (object sender, EventArgs e)
+        {
+            _remote.MoveUp();
+        }
+
+        void HandleMoveDownTouched (object sender, EventArgs e)
+        {
+            _remote.MoveDown();
+        }
+
+        void HandleMoveRightTouched (object sender, EventArgs e)
+        {
+            _remote.MoveRight();
+        }
+
+        void HandleMoveLeftTouched (object sender, EventArgs e)
+        {
+            _remote.MoveLeft();
+        }
+
+        void HandleZoomValueChanged (object sender, EventArgs e)
+        {
+            if (ZoomLevel.Value > _currentZoomLevel)
+                _remote.ZoomIn();
+            else
+                _remote.ZoomOut();
+            
+            _currentZoomLevel = ZoomLevel.Value;
         }
 
         private void ShowMessage(string message) 
@@ -109,7 +150,7 @@ namespace PTZRemoteControlleriOS
         public override void DidReceiveMemoryWarning()
         {
             base.DidReceiveMemoryWarning();
-            
+            ReleaseEventHandlers();
             ReleaseDesignerOutlets();
         }
     }
