@@ -31,7 +31,7 @@ namespace PTZRemoteControlleriOS
 			AttachHandlers();
 
 			RefreshButton = new UIBarButtonItem(UIBarButtonSystemItem.Refresh);
-			RefreshButton.Clicked += delegate { ConnectToRelay(); };
+            RefreshButton.Clicked += HandleRefreshButtonClicked;
 			NavigationItem.RightBarButtonItem = RefreshButton;
 
 			await ConnectToRelay();
