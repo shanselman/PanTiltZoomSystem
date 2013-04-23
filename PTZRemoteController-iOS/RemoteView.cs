@@ -12,7 +12,7 @@ namespace PTZRemoteControlleriOS
         private PTZRemote _remote;
         private double _currentZoomLevel = 0;
 
-        public UIBarButtonItem RefreshButton{get;set;}
+        private UIBarButtonItem RefreshButton{get;set;}
 
         public RemoteView() : base ("RemoteView", null)
         {
