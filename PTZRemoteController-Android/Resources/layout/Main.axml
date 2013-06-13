@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:minWidth="25px"
+    android:minHeight="25px">
+    <TableLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="0,1,2"
+        android:paddingTop="20dip">
+        <TableRow>
+            <Button
+                android:text="Up"
+                android:layout_column="1"
+                android:id="@+id/MoveUp" />
+        </TableRow>
+        <TableRow>
+            <Button
+                android:text="Left"
+                android:layout_column="0"
+                android:id="@+id/MoveLeft" />
+            <Button
+                android:text="Right"
+                android:layout_column="2"
+                android:id="@+id/MoveRight" />
+        </TableRow>
+        <TableRow>
+            <Button
+                android:text="Down"
+                android:layout_column="1"
+                android:id="@+id/MoveDown" />
+        </TableRow>
+    </TableLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:paddingTop="20dip"
+        android:gravity="center_horizontal">
+        <Button
+            android:text="-"
+            android:layout_width="80dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/ZoomOut" />
+        <Button
+            android:text="+"
+            android:layout_width="80dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/ZoomIn" />
+    </LinearLayout>
+</LinearLayout>
