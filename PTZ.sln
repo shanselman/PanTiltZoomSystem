@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTZDeviceConsole", "PTZDeviceConsole\PTZDeviceConsole.csproj", "{1B6F2E32-0C57-4FD7-AFF2-DE0227D63D68}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTZWebSite", "PTZWebSite\PTZWebSite.csproj", "{3CBBB6CC-4348-409E-B24E-CE925BFA8988}"
@@ -12,13 +14,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LocalExamples", "LocalExamples", "{7321B774-422E-4283-8307-ED2C609F96DB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTZRemoteCameraListener", "PTZRemoteCameraListener\PTZRemoteCameraListener.csproj", "{08FC8129-2B22-4877-8974-3858FBECD517}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{398E612A-8E8C-470A-B1C6-C98006234CB1}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

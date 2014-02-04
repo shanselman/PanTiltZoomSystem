@@ -10,7 +10,6 @@ namespace PTZSignalRRelay
     {
         public void Move(int x, int y, string groupName)
         {
-            //Clients[groupName].Move(x, y); //test
             Clients.Group(groupName).Move(x, y);
         }
 
